@@ -1,34 +1,38 @@
 workflows:
-  android-build:
-    name: Android Build
+android-build:
+name: Android Build
 
-    environment:
-      vars:
-        CI: true
+```
+environment:
+  vars:
+    CI: true
 
-    scripts:
-      - name: Show Java version
-        script: |
-          java -version
-          echo $JAVA_HOME
+scripts:
+  - name: Show Java version
+    script: |
+      java -version
+      echo $JAVA_HOME
 
-      - name: Install dependencies
-        script: |
-          npm install
+  - name: Force Java 21
+    script: |
+      export JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home
+      export PATH=$JAVA_HOME/bin:$PATH
+      java -version
 
-      - name: Install Capacitor Android
-        script: |
-          npm install @capacitor/android
+  - name: Install dependencies
+    script: |
+      npm install
 
-      - name: Sync Capacitor
-        script: |
-          npx cap sync android
+  - name: Sync Capacitor
+    script: |
+      npx cap sync android
 
-      - name: Build APK
-        script: |
-          cd android
-          chmod +x gradlew
-          ./gradlew clean assembleDebug --stacktrace
+  - name: Build APK
+    script: |
+      cd android
+      chmod +x gradlew
+      ./gradlew clean assembleDebug --stacktrace
 
-    artifacts:
-      - android/app/build/outputs/**/*.apk
+artifacts:
+  - android/app/build/outputs/**/*.apk
+```
