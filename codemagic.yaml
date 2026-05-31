@@ -7,11 +7,13 @@ environment:
   vars:
     CI: true
 
-scripts:
-  - name: Show Java version
-    script: |
-      java -version
-      echo $JAVA_HOME
+- name: Show Java version
+  script: |
+    java -version
+    javac -version
+    echo "JAVA_HOME=$JAVA_HOME"
+    which java
+    which javac
 
   - name: Force Java 21
     script: |
