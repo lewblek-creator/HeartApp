@@ -1,0 +1,32 @@
+workflows:
+  android-build:
+    name: Android Build
+
+    environment:
+      vars:
+        CI: true
+
+    scripts:
+  - name: Install dependencies
+    script: |
+      npm install
+      ls
+      cat package.json
+
+  - name: Check Capacitor
+    script: |
+      npm list
+      npx cap --version
+
+  - name: Sync Capacitor
+    script: |
+      npx cap sync android
+
+  - name: Build APK
+    script: |
+      cd android
+      chmod +x gradlew
+      ./gradlew assembleDebug
+
+    artifacts:
+      - android/app/build/outputs/**/*.apk
