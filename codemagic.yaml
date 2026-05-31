@@ -5,6 +5,12 @@ workflows:
     environment:
       vars:
         CI: true
+      java:
+        version: 17   # <-- обязательно Java 17
+      node:
+        version: 20   # Node.js LTS, можно поменять если нужно
+      flutter: false
+      ruby: false
 
     scripts:
       - name: Install dependencies
@@ -19,12 +25,17 @@ workflows:
         script: |
           npx cap sync android
 
-      - name: Build APK
+      - name: Ensure gradlew is executable
         script: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          cd ..
+
+      - name: Build APK
+        script: |
+          cd android
+          ./gradlew clean assembleDebug -Dorg.gradle.java.home=$JAVA_HOME
+          cd ..
 
     artifacts:
       - android/app/build/outputs/**/*.apk
-      
