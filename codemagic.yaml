@@ -7,26 +7,23 @@ workflows:
         CI: true
 
     scripts:
-  - name: Install dependencies
-    script: |
-      npm install
-      ls
-      cat package.json
+      - name: Install dependencies
+        script: |
+          npm install
 
-  - name: Check Capacitor
-    script: |
-      npm list
-      npx cap --version
+      - name: Install Capacitor Android
+        script: |
+          npm install @capacitor/android
 
-  - name: Sync Capacitor
-    script: |
-      npx cap sync android
+      - name: Sync Capacitor
+        script: |
+          npx cap sync android
 
-  - name: Build APK
-    script: |
-      cd android
-      chmod +x gradlew
-      ./gradlew assembleDebug
+      - name: Build APK
+        script: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
 
     artifacts:
       - android/app/build/outputs/**/*.apk
